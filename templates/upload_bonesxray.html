@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Bones X-ray</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload_image.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/images/logoo.png') }}" alt="Logo" style="width: 100px; height: auto;">ONCODETECT
+        </div>
+        <div class="profile">
+            <a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Patient Dashboard</a> |
+            <a href="{{ url_for('login.login') }}">Logout</a>
+        </div>
+    </nav>
+    
+    <aside class="sidebar">
+        <ul>
+            <li><a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Dashboard</a></li>
+            <li><a href="{{ url_for('dashboard.view_report', patient_id=patient.id) }}">View Report</a></li>
+            <li><a href="{{ url_for('dashboard.profile', patient_id=patient.id) }}">Profile</a></li>
+        </ul>
+    </aside>
+
+    <!-- === Main Content Area with Flex Layout === -->
+    <main class="main-content">
+        <div class="flex-container">
+
+            <!-- Upload Form -->
+            <div class="upload-form">
+                <h2>Upload your X-ray Image</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    <label for="xray_image">Select your X-ray Image:</label>
+                    <input type="file" name="xray_image" accept=".jpg, .jpeg, .png" required><br>
+                    <button type="submit">Upload X-ray</button>
+                </form>
+                
+            </div>
+
+            <!-- Uploaded Image Preview -->
+            {% if patient.xray_image %}
+            <div class="uploaded-image">
+                <h3>Your Uploaded X-ray:</h3>
+                <img src="{{ url_for('static', filename='uploads/' + patient.xray_image) }}" alt="X-ray Image">
+            </div>
+            {% endif %}
+
+        </div>
+    </main>
+</body>
+</html>

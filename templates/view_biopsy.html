@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Biopsy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view.css') }}">
+</head>
+<body>
+
+<!-- Top Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">OncoDetect</div>
+    <div class="profile">
+        <a href="#">view Dashboard</a> |
+        <a href="{{ url_for('login.login') }}">Logout</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+   
+    <!-- Patient Information -->
+    <div class="patient-info">
+        <p><strong>Patient ID:</strong> {{ patient.id }}</p>
+        <p><strong>Name:</strong> {{ patient.username }}</p>
+        <p><strong>Email:</strong> {{ patient.email }}</p>
+    </div>
+    
+    <div class="form-container">
+        <!-- Display Uploaded Biopsy Image if available -->
+        {% if patient.biopsy_file %}
+        <div class="biopsy-image-container">
+            <h2>Uploaded Biopsy:</h2>
+            <img src="{{ url_for('static', filename='uploads/' + patient.biopsy_file) }}" alt="Biopsy Image" style="max-width: 100%; max-height: 400px; border-radius: 8px;">
+        </div>
+        {% else %}
+        <p>No biopsy uploaded yet.</p>
+        {% endif %}
+        
+        <!-- Back Button to Doctor Dashboard -->
+        <div class="back-button">
+            <a href="{{ url_for('doctor_dashboard') }}" class="btn-back">Back </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

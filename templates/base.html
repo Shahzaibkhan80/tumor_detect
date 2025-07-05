@@ -1,0 +1,21 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor.css') }}">
+</head>
+
+<body>
+    <!-- Navigation bar or header can go here -->
+    <nav>
+        <a href="{{ url_for('doctor_dashboard') }}">Doctor Dashboard</a>
+        
+    </nav>
+
+    <!-- This block will be filled in by other templates that extend this one -->
+    {% block content %}
+    {% endblock %}
+
+    
+</body>
+</html>

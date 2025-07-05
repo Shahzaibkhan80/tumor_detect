@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hospital.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/images/logoo.png') }}" alt="Logo" style="width: 100px; height: auto;">
+            ONCODETECT
+        </div>
+        <div class="profile">
+            <a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Patient Dashboard</a> |
+            <a href="{{ url_for('login.login') }}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="sidebar">
+        <h2>Patient Panel</h2>
+        <ul>
+            <li><a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Dashboard</a></li>
+            <li><a href="{{ url_for('upload.upload_bonesxray', patient_id=patient.id) }}">Bones X-ray</a></li>
+            <li><a href="{{ url_for('upload.upload_brainmri', patient_id=patient.id) }}">Brain MRI</a></li>
+            <li><a href="{{ url_for('dashboard.profile', patient_id=patient.id) }}">Profile</a></li>
+            <li><a href="{{ url_for('dashboard.view_report', patient_id=patient.id) }}">View Report</a></li>
+            <li><a href="{{ url_for('dashboard.hospital_info', patient_id=patient.id) }}">Hospital Info</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Welcome, {{ patient.username }}</h1>
+    
+        {% if show_hospitals %}
+            <div class="price-form">
+                <h2>Select Hospital Price Range</h2>
+                <form method="POST">
+                    <label for="price">Choose Price:</label>
+                    <select name="price" id="price" required>
+                        {% for price in prices %}
+                            <option value="{{ price.value }}" {% if selected_price == price.value %}selected{% endif %}>
+                                {{ price.label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Submit</button>
+                </form>
+    
+                {% if selected_price %}
+                    <p>You selected: <strong>{{ selected_price }} PKR</strong></p>
+                {% endif %}
+    
+                {% if hospitals %}
+                    <h3>Matching Hospitals</h3>
+                    <table class="hospital-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>City</th>
+                                <th>Address</th>
+                                <th>Estimated Surgery Cost (PKR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for hospital in hospitals %}
+                                <tr>
+                                    <td>{{ hospital.name }}</td>
+                                    <td>{{ hospital.city }}</td>
+                                    <td>
+                                    <a href="{{ hospital.address }}" target="_blank">{{ hospital.address }}</a>
+                                    </td>
+                                    <td>
+                                        {% if hospital.cost == 0 %}
+                                            Free or Minimal Charges
+                                        {% else %}
+                                            {{ hospital.cost }} PKR
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No hospitals found under the selected price range.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>No hospital required.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

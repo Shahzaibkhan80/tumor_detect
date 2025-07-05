@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Validation</title>
+</head>
+<body>
+    <h1>Image Validation</h1>
+    <form id="upload-form" method="post" enctype="multipart/form-data" action="/validate">
+        <label for="file">Upload Image:</label>
+        <input type="file" name="file" id="file" required><br><br>
+        <label for="category">Select Category:</label>
+        <select name="category" id="category" required>
+            <option value="xray">X-ray</option>
+            <option value="biopsy">Biopsy</option>
+        </select><br><br>
+        <button type="submit">Upload and Validate</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        const form = document.getElementById('upload-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/validate', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = result.message || result.error;
+        });
+    </script>
+</body>
+</html>

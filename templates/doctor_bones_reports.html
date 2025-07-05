@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bone X-ray Reports</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <h2>Bones X-ray Reports</h2>
+        <a href="{{ url_for('dashboard.doctor_dashboard') }}">Back to Dashboard</a>
+    </nav>
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="{{ url_for('dashboard.about_doctor') }}">About Doctor</a></li>
+            <li><a href="{{ url_for('dashboard.about_patient') }}">About Patients</a></li>
+            <li><a href="{{ url_for('dashboard.bones_xray_reports') }}">Bone X-ray Reports</a></li>
+            <li><a href="{{ url_for('dashboard.brain_mri_reports') }}">Brain MRI Reports</a></li>
+            <li><a href="{{ url_for('login.login') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    {% if patients %}
+    <div class="patient-grid">
+        {% for patient in patients %}
+        <div class="patient-card">
+            <div class="patient-info">
+                <h3>{{ patient.username }}</h3>
+                <p>Email: {{ patient.email }}</p>
+            </div>
+            <div class="patient-xray">
+                {% if patient.xray_image %}
+                    <img src="{{ url_for('static', filename='uploads/' + patient.xray_image) }}" alt="X-ray Image">
+                {% else %}
+                    <p>No X-ray uploaded</p>
+                {% endif %}
+            </div>
+            <div class="patient-actions">
+                {% if patient.tumor_stage == "Tumor Detected" %}
+                    {% if patient.biopsy_file %}
+                        <p>Biopsy already uploaded</p>
+                    {% else %}
+                        <a href="{{ url_for('upload.upload_biopsy', patient_id=patient.id) }}" class="btn-upload">Upload Biopsy</a>
+                    {% endif %}
+                {% else %}
+                    <p>No tumor detected, biopsy not required.</p>
+                {% endif %}
+                <form method="POST" action="{{ url_for('generate.generate_report', patient_id=patient.id) }}">
+                    <input type="hidden" name="report_type" value="bone">
+                    <button type="submit" class="btn-generate">Generate Report</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No patients uploaded X-ray yet.</p>
+    {% endif %}
+</body>
+</html>

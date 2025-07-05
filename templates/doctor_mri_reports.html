@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brain MRI Reports</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <h2>Brain MRI Reports</h2>
+        <a href="{{ url_for('dashboard.doctor_dashboard') }}">Back to Dashboard</a>
+    </nav>
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="{{ url_for('dashboard.about_doctor') }}">About Doctor</a></li>
+            <li><a href="{{ url_for('dashboard.about_patient') }}">About Patients</a></li>
+            <li><a href="{{ url_for('dashboard.bones_xray_reports') }}">Bone X-ray Reports</a></li>
+            <li><a href="{{ url_for('dashboard.brain_mri_reports') }}">Brain MRI Reports</a></li>
+            <li><a href="{{ url_for('login.login') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    {% if patients %}
+    <div class="patient-grid">
+        {% for patient in patients %}
+        <div class="patient-card">
+            <div class="patient-info">
+                <h3>{{ patient.username }}</h3>
+                <p>Email: {{ patient.email }}</p>
+                <p>Age: {{ patient.age }}</p>
+            </div>
+            <div class="patient-xray">
+                {% if patient.brain_mri_image %}
+                    <img src="{{ url_for('static', filename='uploads/' + patient.brain_mri_image) }}" alt="MRI Image">
+                {% else %}
+                    <p>No MRI uploaded</p>
+                {% endif %}
+            </div>
+            <div class="patient-actions">
+                {% if patient.brain_mri_class %}
+                    <p><strong>Predicted Class:</strong> {{ patient.brain_mri_class }}</p>
+                    <p><strong>Confidence:</strong> {{ '%.2f'|format(patient.brain_mri_confidence) }}%</p>
+                {% else %}
+                    <p>Prediction not available</p>
+                {% endif %}
+                <form method="POST" action="{{ url_for('generate.generate_report', patient_id=patient.id) }}">
+                    <input type="hidden" name="report_type" value="brain">
+                    <button type="submit" class="btn-generate">Generate Report</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No patients uploaded MRI yet.</p>
+    {% endif %}
+</body>
+</html>

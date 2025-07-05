@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='css/images/logodd.png') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='css/images/logoo.png') }}" alt="Logo" style="width: 50px;"> ONCODETECT
+    </div>
+    <div class="profile">
+      <a href="#">Admin ({{ admin.username }})</a> |
+      <a href="{{ url_for('login.admin_logout') }}">Logout</a>
+    </div>
+  </nav>
+
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="{{ url_for('dashboard.admin_dashboard') }}" class="active">Dashboard</a></li>
+      <li><a href="{{ url_for('dashboard.add_doctor') }}">Doctor</a></li>
+      <li><a href="{{ url_for('dashboard.view_patients') }}">Patient</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <h1>Welcome, {{ admin.username }}</h1>
+
+    <!-- Total Cards -->
+    <div class="cards-container">
+      <div class="card">
+        <h3>Total Doctors</h3>
+        <p>{{ total_doctors }}</p>
+      </div>
+      <div class="card">
+        <h3>Total Patients</h3>
+        <p>{{ total_patients }}</p>
+      </div>
+    </div>
+
+    
+
+
+</body>
+</html>

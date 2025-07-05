@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <title>About Doctor</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='css/images/logodd.png')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutdoc.css') }}">
+
+</head>
+<body>
+
+<!-- Top Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='css/images/logoo.png') }}" alt="Logo" style="width: 100px; height: auto;">ONCODETECT
+    </div>
+    <div class="profile">
+        <a href="{{ url_for('dashboard.doctor_dashboard') }}">Doctor Dashboard</a>
+    </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    
+    <ul>
+        <li><a href="{{ url_for('dashboard.about_doctor') }}">About Doctor</a></li>
+        <li><a href="{{url_for('dashboard.about_patient')}}">About Patients</a></li>
+        <li><a href="{{ url_for('login.login') }}">Logout</a></li>
+    </ul>
+</div>
+
+
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-7 col-6">
+                    <h4 class="page-title">My Profile</h4>
+                </div>
+
+
+            </div>
+            <div class="card-box profile-header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="profile-view">
+                            <div class="profile-img-wrap">
+                                <div class="profile-img">
+                                    <a ><img class="avatar" src="{{ url_for('static', filename='css/images/doctor.png') }}" alt="Doctor"></a>
+                                </div>
+                            </div>
+                            <div class="profile-basic">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="profile-info-left">
+                                            <h3 class="user-name m-t-0 mb-0">Moiz</h3>
+                                            <small class="text-muted">Oncologist</small>
+                                            <div class="staff-id">Employee ID : DR-0001</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <ul class="personal-info">
+                                            <li>
+                                                <span class="title">Phone:</span>
+                                                <span class="text"><a >0319768761</a></span>
+                                            </li>
+                                            <li>
+                                                <span class="title">Email:</span>
+                                                <span class="text"><a> moiz@gmail.com</a></span>
+                                            </li>
+                                            <li>
+                                                <span class="title">Birthday:</span>
+                                                <span class="text">6rd March</span>
+                                            </li>
+                                            <li>
+                                                <span class="title">Address:</span>
+                                                <span class="text">Karachi</span>
+                                            </li>
+                                            <li>
+                                                <span class="title">Gender:</span>
+                                                <span class="text">male</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="about-cont">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card-box">
+                        <h3 class="card-title">Education Informations</h3>
+                        <div class="experience-box">
+                            <ul class="experience-list">
+                                <li>
+                                    <div class="experience-user">
+                                        <div class="before-circle"></div>
+                                    </div>
+                                    <div class="experience-content">
+                                        <div class="timeline-content">
+                                            <a  class="name">International College of Medical Science (UG)</a>
+                                            <div>MBBS</div>
+                                            <span class="time">2001 - 2003</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="experience-user">
+                                        <div class="before-circle"></div>
+                                    </div>
+                                    <div class="experience-content">
+                                        <div class="timeline-content">
+                                            <a  class="name">International College of Medical Science (PG)</a>
+                                            <div>MD Oncologist</div>
+                                            <span class="time">1997 - 2001</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-box mb-0">
+                        <h3 class="card-title">Experience</h3>
+                        <div class="experience-box">
+                            <ul class="experience-list">
+                                <li>
+                                    <div class="experience-user">
+                                        <div class="before-circle"></div>
+                                    </div>
+                                    <div class="experience-content">
+                                        <div class="timeline-content">
+                                            <a  class="name">Consultant orthologist</a>
+                                            <span class="time">March 2009 - Present (6 years 1 month)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="experience-user">
+                                        <div class="before-circle"></div>
+                                    </div>
+                                    <div class="experience-content">
+                                        <div class="timeline-content">
+                                            <a  class="name">Consultant Neurologist</a>
+                                            <span class="time">March 2009 - Present (6 years 1 month)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="experience-user">
+                                        <div class="before-circle"></div>
+                                    </div>
+                                    <div class="experience-content">
+                                        <div class="timeline-content">
+                                            <a  class="name">Consultant Oncologist</a>
+                                            <span class="time">Jan 2004 - Present (5 years 2 months)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

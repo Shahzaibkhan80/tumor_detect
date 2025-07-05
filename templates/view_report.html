@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view.css') }}">
+</head>
+<body>
+
+<!-- Top Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='css/images/logoo.png') }}" alt="Logo" style="width: 100px; height: auto;">OncoDetect
+    </div>
+    <div class="profile">
+        <a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Patient Dashboard</a> |
+        <a href="{{ url_for('login.login') }}">Logout</a>
+    </div>
+</nav>
+
+<aside class="sidebar">
+    <ul>
+        <li><a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Dashboard</a></li>
+        <li><a href="{{ url_for('dashboard.view_report', patient_id=patient.id) }}">View Report</a></li>
+        <li><a href="{{ url_for('dashboard.profile', patient_id=patient.id) }}">Profile</a></li>
+    </ul>
+</aside>
+
+<!-- Main Content -->
+<div class="container">
+
+    <!-- Back Icon -->
+    <a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}" class="back-icon">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <h1>View Report</h1>
+
+    <!-- Report Section -->
+    
+
+    <!-- Show Uploaded Images -->
+    <div class="report-images">
+        {% if patient.xray_image %}
+            <div class="image-card">
+                <h3>Bone X-ray Report</h3>
+                <img src="{{ url_for('static', filename='uploads/' + patient.xray_image) }}" alt="X-ray Image">
+                
+                {% if bone_report_available %}
+                <a href="{{ url_for('static', filename='reports/' + patient.report_pdf) }}" target="_blank" class="report-link">View Report</a>
+                <a href="{{ url_for('static', filename='reports/' + patient.report_pdf) }}" class="report-link" download>Download Report</a>
+                {% else %}
+                    <p style="margin-top: 10px; color: #999;">Report not available yet.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+            
+        {% if patient.brain_mri_image %}
+            <div class="image-card">
+            <h3>Brain MRI Report</h3>
+            <img src="{{ url_for('static', filename='uploads/' + patient.brain_mri_image) }}" alt="MRI Image">
+            
+            {% if brain_report_available %}
+            <a href="{{ url_for('static', filename='reports/' + patient.brain_report_pdf) }}" target="_blank" class="report-link">View Report</a>
+            <a href="{{ url_for('static', filename='reports/' + patient.brain_report_pdf) }}" class="report-link" download>Download Report</a>
+            {% else %}
+                <p style="margin-top: 10px; color: #999;">Report not available yet.</p>
+            {% endif %}
+
+    </div>
+{% endif %}
+
+    </div>
+    
+    
+    
+
+</div>
+
+</body>
+</html>

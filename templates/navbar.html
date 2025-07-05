@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Bar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{{ url_for('home') }}">BoneCare</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            
+            <!-- Patient Dropdown -->
+            <li class="dropdown">
+                <a href="#" class="dropdown-link">Patient</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url_for('patient.upload_xray') }}">Upload X-Ray</a></li>
+                    <li><a href="{{ url_for('patient.view_report') }}">View Report</a></li>
+                </ul>
+            </li>
+            
+            <!-- Doctor Dropdown -->
+            <li class="dropdown">
+                <a href="#" class="dropdown-link">Doctor</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url_for('doctor.patient_info') }}">Patient Info</a></li>
+                    <li><a href="{{ url_for('doctor.request_report') }}">Request Report</a></li>
+                </ul>
+            </li>
+
+            <!-- Profile Icon -->
+            <li>
+                <a href="{{ url_for('profile') }}">
+                    <img src="{{ url_for('static', filename='css/images/profile-icon.png') }}" alt="Profile" class="icon">
+                </a>
+            </li>
+            
+            <!-- Login and Signup Buttons -->
+            <li><a href="{{ url_for('login.login') }}" class="btn">Login</a></li>
+            <li><a href="{{ url_for('login.signup') }}" class="btn signup-btn">Sign Up</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

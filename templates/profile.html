@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='css/images/logodd.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+
+<!-- Top Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='css/images/logoo.png') }}" alt="Logo" style="width: 100px; height: auto;">ONCODETECT
+    </div>
+    <div class="profile">
+        <a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Patient Dashboard</a> |
+        <a href="{{ url_for('login.login') }}">Logout</a>
+    </div>
+</nav>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+    <ul>
+        <li><a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Dashboard</a></li>
+        <li><a href="{{ url_for('dashboard.view_report', patient_id=patient.id) }}">View Report</a></li>
+        <li><a href="{{ url_for('dashboard.profile', patient_id=patient.id) }}">Profile</a></li>
+    </ul>
+</aside>
+
+<!-- Profile Content -->
+<div class="content">
+    <!-- Back Icon -->
+    <a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}" class="back-icon">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <h2>Your Profile</h2>
+    <p><strong>Name:</strong> {{ patient.username }}</p>
+    <p><strong>Email:</strong> {{ patient.email }}</p>
+    <p><strong>Age:</strong> {{ patient.age }}</p>
+    <p><strong>Gender:</strong> {{ patient.gender }}</p>
+    <p><strong>Phone Number:</strong> {{ patient.phone_number }}</p>
+</div>
+
+</body>
+</html>

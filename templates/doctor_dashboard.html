@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Dashboard - OncoDetect</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link rel="icon" href="{{ url_for('static', filename='css/images/logodd.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor_dashboard.css') }}">
+</head>
+<body>
+
+  <!-- === Navbar === -->
+  <div class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='css/images/logoo.png') }}" alt="Logo" />
+      <span>Doctor Dashboard</span>
+    </div>
+    <div class="profile">
+      <a href="{{ url_for('login.login') }}">Logout</a>
+    </div>
+  </div>
+
+  <!-- === Sidebar === -->
+  <div class="sidebar">
+   
+    <ul>
+      <li><a href="{{ url_for('dashboard.doctor_dashboard') }}" class="active">Dashboard</a></li>
+      <li><a href="{{ url_for('dashboard.bones_xray_reports') }}">Bone X-Rays</a></li>
+      <li><a href="{{ url_for('dashboard.brain_mri_reports') }}">Brain X-Rays</a></li>
+      <li><a href="{{ url_for('dashboard.about_doctor') }}">About Doctor</a></li>
+      <li><a href="{{ url_for('dashboard.about_patient') }}">About Patients</a></li>
+      <li><a href="{{ url_for('login.login') }}">Logout</a></li>
+    </ul>
+    
+  </div>
+
+  <!-- === Main Content === -->
+  <div class="main" style="margin-left: 240px; margin-top: 80px;">
+    <div class="header">
+      <h1>Welcome, Doctor!</h1>
+      <p>Here is your dashboard overview:</p>
+    </div>
+
+    <div class="cards">
+      <div class="card"><h3>Total Patients</h3><p>{{ total_patients }}</p></div>
+      <div class="card"><h3>Bone Tumor</h3><p>{{ tumor_data['Bone Tumor'] }}</p></div>
+      <div class="card"><h3>Bone Normal</h3><p>{{ tumor_data['Bone Non-Tumor'] }}</p></div>
+      <div class="card"><h3>Glioma Tumor</h3><p>{{ brain_class_counts['Glioma Tumor'] }}</p></div>
+      <div class="card"><h3>Meningioma Tumor</h3><p>{{ brain_class_counts['Meningioma Tumor'] }}</p></div>
+      <div class="card"><h3>Pituitary Tumor</h3><p>{{ brain_class_counts['Pituitary Tumor'] }}</p></div>
+      <div class="card"><h3>No Tumor</h3><p>{{ brain_class_counts['No Tumor'] }}</p></div>
+    </div>
+
+    <div class="content-layout">
+      <div class="charts">
+        <div class="chart-card">
+          <h3>Patient Gender Ratio</h3>
+          <canvas id="patientChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>X-Ray Types</h3>
+          <canvas id="xrayChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Brain MRI Classification</h3>
+          <canvas id="brainClassChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Seen vs Unseen X-Rays</h3>
+          <canvas id="seenUnseenChart"></canvas>
+        </div>
+        <div class="chart-card large">
+          <h3>Tumor and Non-Tumor X-rays</h3>
+          <canvas id="tumorChart"></canvas>
+        </div>
+      </div>
+
+      <div class="recent-section">
+        <h2>Recent Patient Activity</h2>
+        <table>
+          <thead>
+            <tr><th>Patient Name</th><th>Last Visit</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            {% for patient in recent_patients %}
+              <tr>
+                <td>{{ patient.username }}</td>
+                <td>{{ patient.email }}</td>
+                <td>{{ patient.gender }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- === Chart Scripts === -->
+  <script>
+    new Chart(document.getElementById('patientChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Male', 'Female'],
+        datasets: [{
+          data: [
+            {{ gender_counts.get('Male', 0) }},
+            {{ gender_counts.get('Female', 0) }}
+          ],
+          backgroundColor: ['#3498db', '#e74c3c']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('xrayChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Bone', 'Brain'],
+        datasets: [{
+          data: [{{ xray_counts['Bone'] }}, {{ xray_counts['Brain'] }}],
+          backgroundColor: ['#2ecc71', '#f1c40f']
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    new Chart(document.getElementById('seenUnseenChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Seen', 'Unseen'],
+        datasets: [{
+          data: [{{ seen_count }}, {{ unseen_count }}],
+          backgroundColor: ['#8e44ad', '#3498db']
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    const brainClassCounts = {{ brain_class_counts | tojson }};
+  const brainChart = new Chart(document.getElementById('brainClassChart'), {
+    type: 'pie',
+    data: {
+      labels: ['Glioma Tumor', 'Meningioma Tumor', 'Pituitary Tumor', 'No Tumor'],
+      datasets: [{
+        data: [
+          brainClassCounts['Glioma Tumor'],
+          brainClassCounts['Meningioma Tumor'],
+          brainClassCounts['Pituitary Tumor'],
+          brainClassCounts['No Tumor']
+        ],
+        backgroundColor: ['#e74c3c', '#9b59b6', '#f39c12', '#2ecc71']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        },
+        title: {
+          display: false
+        }
+      }
+    }
+  });
+
+    new Chart(document.getElementById('tumorChart'), {
+      type: 'bar',
+      data: {
+        labels: [
+          'Glioma Tumor',
+          'Meningioma Tumor',
+          'Pituitary Tumor',
+          'Brain No Tumor',
+          'Bone Tumor',
+          'Bone Non-Tumor'
+        ],
+        datasets: [{
+          label: 'Count',
+          data: [
+            {{ brain_class_counts['Glioma Tumor'] }},
+            {{ brain_class_counts['Meningioma Tumor'] }},
+            {{ brain_class_counts['Pituitary Tumor'] }},
+            {{ brain_class_counts['No Tumor'] }},
+            {{ tumor_data['Bone Tumor'] }},
+            {{ tumor_data['Bone Non-Tumor'] }}
+          ],
+          backgroundColor: [
+            '#e74c3c',  // Glioma Tumor
+            '#9b59b6',  // Meningioma Tumor
+            '#8e44ad',  // Pituitary Tumor
+            '#3498db',  // Brain No Tumor
+            '#2ecc71',  // Bone Tumor
+            '#f1c40f'   // Bone Non-Tumor
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          },
+          title: {
+            display: true,
+            text: 'Brain and bones distribution'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    });
+  
+  </script>
+</body>
+</html>

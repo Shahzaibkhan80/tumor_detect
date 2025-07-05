@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/patient.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/images/logoo.png') }}" alt="Logo" style="width: 100px; height: auto;">ONCODETECT
+        </div>
+        <div class="profile">
+            <a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Patient Dashboard</a> |
+            <a href="{{ url_for('login.login') }}">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Patient Panel</h2>
+        <ul>
+            <li><a href="{{ url_for('dashboard.patient_dashboard', patient_id=patient.id) }}">Dashboard</a></li>
+            <li><a href="{{ url_for('upload.upload_bonesxray', patient_id=patient.id) }}">Bones X-ray</a></li>
+            <li><a href="{{ url_for('upload.upload_brainmri', patient_id=patient.id) }}">Brain MRI</a></li>
+            <li><a href="{{ url_for('dashboard.profile', patient_id=patient.id) }}">Profile</a></li>
+            <li><a href="{{ url_for('dashboard.view_report', patient_id=patient.id) }}">View Report</a></li>
+            <li><a href="{{ url_for('dashboard.hospital_info', patient_id=patient.id) }}">Hospital Info</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Welcome, {{ patient.username }}</h1>
+
+        <div class="cards-container">
+            <div class="card">
+                <h3>Upload Bones X-ray</h3>
+                <p>Upload your bones X-ray for analysis.</p>
+                <a href="{{ url_for('upload.upload_bonesxray', patient_id=patient.id) }}" class="btn">Upload Now</a>
+            </div>
+            <div class="card">
+                <h3>Upload Brain MRI</h3>
+                <p>Upload your Brain MRI for analysis.</p>
+                <a href="{{ url_for('upload.upload_brainmri', patient_id=patient.id) }}" class="btn">Upload Now</a>
+            </div>
+
+            
+
+            <div class="card">
+                <h3>View Report</h3>
+                <p>Check your medical reports.</p>
+                <a href="{{ url_for('dashboard.view_report', patient_id=patient.id) }}" class="btn">View Reports</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
