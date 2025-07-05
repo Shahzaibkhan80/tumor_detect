@@ -1,4 +1,4 @@
-from model_loader import modelpredict, stage_model, brain_model, brain_class_labels
+from model_loader import stage_model
 import numpy as np
 from PIL import Image
 
