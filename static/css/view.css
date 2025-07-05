@@ -1,0 +1,258 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f8fa;
+    margin: 0;
+    padding: 0;
+    color: #2d3748;
+    line-height: 1.6;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #2c3e50;
+    color: #fff;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    gap: 10px;
+}
+
+.navbar .logo img {
+    height: 40px;
+    width: auto;
+}
+
+.navbar .profile a {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.navbar .profile a:hover {
+    color: #1abc9c;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #34495e; /* updated */
+    color: #fff;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 10px 15px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    background-color: #3b5871; /* matched with upload image */
+    transition: background 0.2s ease;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #1abc9c; /* hover effect from upload_image.css */
+}
+
+/* Main Container */
+.container {
+    margin-left: 250px;
+    padding: 30px;
+    min-height: calc(100vh - 70px);
+}
+
+.back-icon {
+    color: #2c5282;
+    font-size: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.back-icon:hover {
+    color: #1a365d;
+}
+
+/* Report Section */
+h1 {
+    color: #2c5282;
+    font-size: 28px;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.report-section {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.report-section p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #4a5568;
+}
+
+.report-link {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #3b5871; /* same as sidebar links */
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.report-link:hover {
+    background-color: #1abc9c; /* same hover effect as sidebar */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Images Section */
+.report-images {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.report-images .image-card {
+    width: 350px;
+    
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.report-images .image-card h3 {
+    color: #2c5282;
+    font-size: 18px;
+    margin-bottom: 12px;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+    width: 100%;
+}
+
+.report-images .image-card img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 220px;
+    }
+    
+    .container {
+        margin-left: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+    }
+    
+    .container {
+        margin-left: 0;
+        padding: 20px;
+    }
+    
+    .navbar {
+        padding: 0 20px;
+        height: 60px;
+    }
+    
+    .navbar .logo {
+        font-size: 18px;
+    }
+    
+    .sidebar ul li a {
+        padding: 10px 15px;
+    }
+    
+    .report-images {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+    }
+    
+    .navbar .logo {
+        margin-bottom: 10px;
+    }
+    
+    .navbar .profile {
+        width: 100%;
+        justify-content: space-around;
+    }
+    
+    .report-link {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+}

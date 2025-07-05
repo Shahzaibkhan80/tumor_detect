@@ -1,0 +1,65 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f6f9;
+    background-image: url(images5.jpeg);
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar */
+.navbar {
+    width:97%; /* Full width minus sidebar */
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(54, 170, 185, 0.5);
+    padding: 15px 30px;
+    color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Keep fixed at the top */
+    top: 0;
+    z-index: 10; /* Above sidebar */
+}
+.page-wrapper {
+    margin-top: 60px; /* Adjust based on the navbar height */
+    margin-left: 250px; /* Adjust based on the sidebar width */
+    padding: 20px; /* Optional padding for content spacing */
+    min-height: calc(100vh - 60px); /* Ensures it covers the remaining viewport height */
+    background-color: #ffffff; /* Background color, optional */
+    box-sizing: border-box; /* Ensures padding does not affect the width */
+}
+
+
+.navbar .logo {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.navbar .profile a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar .profile a:hover {
+    color: #ffdd57;
+}
+h1{
+    
+    margin-top: 100px;
+    font-size: 2.5rem;
+    color:rgba(54, 170, 185, 0.8) ;
+}
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 10px;
+
+}

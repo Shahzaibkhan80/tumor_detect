@@ -1,0 +1,172 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-image: url(images/signup.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Signup Container */
+.signup-container {
+    display: flex;
+    flex-direction: row; /* Horizontal layout for landscape */
+    width: 100%;
+    max-width: 800px; /* Wider container for landscape */
+    max-height: 80vh; /* Limit height to fit landscape screens */
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    text-align: left;
+}
+
+/* Right Section (content section) */
+.right-section {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2575fc;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: #2575fc;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+/* Button Styling */
+.submit-btn {
+    background: #2575fc;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #1b5bbf;
+}
+
+/* Login Link */
+.login-link {
+    text-align: left;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.login-link a {
+    color: #2575fc;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+input.error,
+select.error {
+    border: 2px solid red !important;
+}
+
+input.valid,
+select.valid {
+    border: 2px solid green !important;
+}
+
+/* Responsive Design for Landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+    .signup-container {
+        max-width: 90%;
+        max-height: 90vh;
+        padding: 20px;
+    }
+    .right-section {
+        padding: 15px;
+    }
+    .form-group {
+        margin-bottom: 10px;
+    }
+    input,
+    select {
+        padding: 8px;
+        font-size: 12px;
+    }
+    .submit-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* Responsive Design for Portrait or Smaller Screens */
+@media (max-width: 768px) and (orientation: portrait) {
+    .signup-container {
+        flex-direction: column; /* Stack vertically for portrait */
+        max-width: 90%;
+        padding: 20px;
+    }
+}
