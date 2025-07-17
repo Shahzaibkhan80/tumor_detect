@@ -4,6 +4,7 @@ import tensorflow as tf
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
 # Load models using safe relative paths
 try:
     stage_model = tf.keras.models.load_model(os.path.join(BASE_DIR, 'models', 'modelsarcoma.h5'))
