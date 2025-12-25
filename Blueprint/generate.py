@@ -21,22 +21,19 @@ def generate_report(patient_id):
         flash("Patient not found!", "danger")
         return redirect(url_for('dashboard.doctor_dashboard'))
 
-    # Doctor name (assuming one doctor in DB or linked to patient)
-    doctor = Doctor.query.first()  # ya patient.doctor_id se fetch karen agar relation ho
+    doctor = Doctor.query.first()
     doctor_name = doctor.username if doctor else "N/A"
 
-    report_type = request.form.get('report_type')  # 'bone' or 'brain'
+    report_type = request.form.get('report_type')
     report_filename = f"patient_{patient.id}_{report_type}_report.pdf"
     report_path = os.path.join(current_app.config['REPORT_FOLDER'], report_filename)
 
-    # Initialize results
     xray_result, xray_confidence = "No X-ray uploaded", 0
     biopsy_result = "Not applicable"
     biopsy_included = False
     biopsy_error = None
     mri_result, mri_confidence = "No MRI uploaded", None
 
-    # Bone X-ray & Biopsy
     if patient.xray_image:
         xray_image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], patient.xray_image)
         xray_result, xray_confidence = predict_tumor(xray_image_path)
@@ -49,30 +46,24 @@ def generate_report(patient_id):
                 biopsy_result = predict_biopsy(biopsy_image_path)
                 biopsy_included = True
 
-    # Brain MRI
     if patient.brain_mri_image:
         mri_image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], patient.brain_mri_image)
         mri_result, mri_confidence = predict_brain_tumor(mri_image_path)
 
-    # Create PDF
     buffer = io.BytesIO()
     pdf = canvas.Canvas(buffer, pagesize=letter)
     width, height = letter
 
-    # Logo
     logo_path = os.path.join(current_app.config['STATIC_FOLDER'], 'images', 'logo.jpg')
     pdf.drawImage(logo_path, 50, height - 120, width=80, height=80, mask='auto')
 
-    # Title
     pdf.setFont("Helvetica-Bold", 22)
     pdf.drawCentredString(width / 2, height - 70, "OncoDetect - Patient Report")
 
-    # Doctor & Date
     pdf.setFont("Helvetica", 12)
     pdf.drawString(400, height - 110, f"Doctor: {doctor_name}")
     pdf.drawString(400, height - 130, f"Date: {datetime.now().strftime('%b %d, %Y')}")
 
-    # Patient Info Box
     pdf.setFillColor(colors.lightgrey)
     pdf.roundRect(50, height - 220, width - 100, 70, 10, fill=1, stroke=0)
     pdf.setFillColor(colors.black)
@@ -81,7 +72,6 @@ def generate_report(patient_id):
     pdf.setFont("Helvetica", 11)
     pdf.drawString(60, height - 210, f"Name: {patient.username}   |   Email: {patient.email}   |   Age: {patient.age}   |   Gender: {patient.gender}  |   Phone: {patient.phone_number}" )
 
-    # Test Results Table
     table_data = [["Test Type", "Result", "Confidence", "Notes"]]
     if report_type == "bone":
         table_data.append([
@@ -137,7 +127,6 @@ def generate_report(patient_id):
             suggestions = ["• No tumor detected in bone X-ray. Maintain regular checkups."]
 
     elif report_type == "brain":
-        # Brain tumor specific suggestions based on class
         if mri_result.lower() == "glioma":
             suggestions = [
                 "• Glioma detected: Consult a neuro-oncologist promptly.",
@@ -169,21 +158,17 @@ def generate_report(patient_id):
     for i, line in enumerate(suggestions):
         pdf.drawString(75, height - 360 - (i * 18), line)
 
-    # Footer
     pdf.setFont("Helvetica-Oblique", 9)
     pdf.setFillColor(colors.grey)
     pdf.drawCentredString(width / 2, 30, "For more info, visit www.oncodetect.com or email support@oncodetect.com")
 
-    # Finalize PDF
     pdf.save()
     buffer.seek(0)
     pdf_bytes = buffer.getvalue()
 
-    # Save PDF to disk
     with open(report_path, 'wb') as f:
         f.write(pdf_bytes)
 
-    # Save to database
     if report_type == "brain":
         patient.brain_report_pdf = report_filename
     else:

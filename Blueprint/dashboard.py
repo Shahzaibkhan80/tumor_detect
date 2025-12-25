@@ -20,7 +20,6 @@ def nocache(view):
     no_cache_wrapper.__name__ = view.__name__
     return no_cache_wrapper
 
-###Admin dashboard
 @dashboard_bp.route('/admin_dashboard', methods=['GET'])
 def admin_dashboard():
     if 'admin_id' not in session:
@@ -32,7 +31,6 @@ def admin_dashboard():
     total_patients = len(patients)
     admin = Admin.query.get(session['admin_id'])
 
-    # Diagnosis summary
     diagnosis_counts = (
         Patient.query
         .with_entities(Patient.result, func.count(Patient.id))
@@ -68,7 +66,6 @@ def add_doctor():
             flash('Username and Password are required!', 'danger')
             return render_template('add_doctor.html')
 
-        # Check if doctor with this username already exists
         existing_doctor = Doctor.query.filter_by(username=username).first()
         if existing_doctor:
             flash('Doctor with this username already exists.', 'danger')
@@ -91,7 +88,6 @@ def view_patients():
     patients = Patient.query.all()
     return render_template('patient_view.html', patients=patients)
 
-# Example route
 
 
 @dashboard_bp.route('/delete_patient/<int:patient_id>', methods=['POST'])
@@ -156,12 +152,10 @@ def doctor_dashboard():
     unseen_count = 0
 
     for p in patients:
-        # Gender
         gender = (p.gender or '').capitalize()
         if gender in gender_counts:
             gender_counts[gender] += 1
 
-        # Bone X-ray
         if p.xray_image:
             xray_counts['Bone'] += 1
             tumor_stage = (p.tumor_stage or '').strip().lower()
@@ -170,7 +164,6 @@ def doctor_dashboard():
             else:
                 tumor_data['Bone Non-Tumor'] += 1
 
-        # Brain MRI
         if p.brain_mri_image:
             xray_counts['Brain'] += 1
             brain_class = (p.brain_mri_class or '').strip().title()
@@ -186,7 +179,6 @@ def doctor_dashboard():
             elif brain_class == "No Tumor":
                 brain_class_counts["No Tumor"] += 1
 
-        # Seen/Unseen
         if p.report_pdf or p.brain_report_pdf:
             seen_count += 1
         else:
@@ -251,7 +243,6 @@ def bones_xray_reports():
 
     return render_template('doctor_bones_reports.html', patients=patients, doctor=doctor)
 
-##Patient dashboard
 @dashboard_bp.route('/patient_dashboard/<int:patient_id>', methods=['GET','POST'])
 @nocache
 def patient_dashboard(patient_id):
@@ -303,11 +294,9 @@ def hospital_info(patient_id):
     if not brain_has_tumor and not bone_has_tumor:
         return render_template('hospital_info.html', patient=patient, show_hospitals=False)
     def hospital_info(patient_id):
-   # ya jo logic aap use kar rahe hain
 
       if request.method == 'POST':
         selected_price = int(request.form['price'])  # Text box se price
-        # Filter hospitals based on selected_price
         hospitals = Hospital.query.filter(Hospital.cost <= selected_price).all()
     selected_price = None
     hospitals = [
@@ -325,11 +314,10 @@ def hospital_info(patient_id):
         {'name': 'Lady Reading Hospital', 'city': 'Peshawar', 'address': 'https://www.google.com/maps/place/Lady+Reading+Hospital', 'cost': 0},
     ]
 
-    # Generate unique and sorted price options
     unique_prices = sorted(set(h['cost'] for h in hospitals))
     prices = [{'label': 'Free or Minimal Charges', 'value': 0} if p == 0 else {'label': f"{p} PKR", 'value': p} for p in unique_prices]
 
-    filtered = hospitals  # Default to all hospitals
+    filtered = hospitals 
 
     if request.method == 'POST':
         try:

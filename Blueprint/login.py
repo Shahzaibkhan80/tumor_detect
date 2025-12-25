@@ -47,31 +47,26 @@ def signup():
 
         print(f"[SIGNUP] Received: username={username}, email={email}, password={password}, age={age}, gender={gender}, phone={phone_number}")
 
-        # Username validation: only letters
         if not re.match(r"^[A-Za-z]+$", username):
             print("[SIGNUP] Username validation failed")
             flash("Username can only contain letters (no numbers or special characters).", "danger")
             return redirect(url_for('login.signup'))
 
-        # Email validation (basic)
         if not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", email):
             print("[SIGNUP] Email validation failed")
             flash("Please enter a valid email address.", "danger")
             return redirect(url_for('login.signup'))
 
-        # Password validation: 8-12 chars, at least one uppercase letter, one special char
         if not re.match(r"^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,12}$", password):
             print("[SIGNUP] Password validation failed")
             flash("Password must be 8-12 characters long, include at least one uppercase letter and one special character.", "danger")
             return redirect(url_for('login.signup'))
 
-        # Phone number validation: digits only, max 11 digits
         if not re.match(r"^\d{1,11}$", phone_number):
             print("[SIGNUP] Phone validation failed")
             flash("Phone number must contain only digits and be maximum 11 digits long.", "danger")
             return redirect(url_for('login.signup'))
 
-        # Check for existing user
         existing_user = Patient.query.filter((Patient.username == username) | (Patient.email == email)).first()
         print(f"[SIGNUP] Existing user: {existing_user}")
         if existing_user:
@@ -79,7 +74,6 @@ def signup():
             flash('Username or email already exists. Please try again.', 'danger')
             return redirect(url_for('login.signup'))
 
-        # Add new user
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         print(f"[SIGNUP] Hashed password: {hashed_password}")
         new_patient = Patient(
@@ -206,7 +200,6 @@ def reset_password(token):
         flash('Your password has been reset successfully. You can now login.', 'success')
         return redirect(url_for('login.login'))
 
-    # GET request: render reset password form
     return render_template('reset_password.html', token=token)
 
 # ------------------ Token Helpers ------------------
